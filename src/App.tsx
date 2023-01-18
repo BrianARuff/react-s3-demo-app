@@ -85,12 +85,8 @@ function App() {
     }
   }
 
-  const prevImageList = usePrevious(imageList);
-
   useEffect(() => {
-    // if ((prevImageList || [])?.length !== imageList?.length) {
-    //   fetchImages();
-    // }
+
     fetchImages();
   }, []);
 
@@ -106,7 +102,7 @@ function App() {
       <input style={{ display: 'none' }} type="file" ref={ref} onChange={handleFileUpload} />
       <button style={{ width: '100%', background: '#ffd369', marginBottom: '16px' }} onClick={() => ref.current?.click()}>Upload</button>
       {
-        isFetching ? <Spinner /> : imageToShow && <img src={imageToShow} alt="image" height="300px" />
+        isFetching ? <Spinner /> : imageToShow && <img src={imageToShow} alt="upload" height="300px" />
       }
 
       {
@@ -141,7 +137,7 @@ function App() {
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", width: '100%' }}>
             {
               imageList?.map((url: string) => (
-                <img key={url} src={url} alt="image" height="300px" style={{ padding: '0 16px 0 0' }} />
+                <img key={url} src={url} alt="upload" height="300px" style={{ padding: '0 16px 0 0' }} />
               ))
             }
           </div>
