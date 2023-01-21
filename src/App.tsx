@@ -5,7 +5,7 @@ import { Amplify } from "@aws-amplify/core";
 import { Storage } from "@aws-amplify/storage";
 import appText from "./text.json";
 
-// Configure Amplify
+// Configure Amplify...
 Amplify.configure({
   Auth: {
     identityPoolId: process.env.REACT_APP_S3_identityPoolId,
