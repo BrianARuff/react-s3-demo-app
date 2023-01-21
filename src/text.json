@@ -8,5 +8,6 @@
   "table": {
     "index": "Index",
     "name": "Name"
-  }
+  },
+  "loding": "Loading..."
 }

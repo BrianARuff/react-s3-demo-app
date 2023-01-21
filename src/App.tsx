@@ -107,6 +107,23 @@ function App() {
         margin: "16px",
       }}
     >
+      {progress ||
+        isFetching ||
+        (true && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              background: rga(0, 0, 0, 0.3),
+              color: "#000",
+            }}
+          >
+            {appText.loading}
+          </div>
+        ))}
       {errorMessage && (
         <h4
           style={{
