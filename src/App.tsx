@@ -196,7 +196,7 @@ function App() {
                   <td>{image.key}</td>
                   <td>
                     <button
-                      stlye={{ width: "100%" }}
+                      style={{ width: "100%" }}
                       onClick={() => getFileFromS3(image.key)}
                     >
                       {appText.buttons.showImage}
@@ -204,7 +204,7 @@ function App() {
                   </td>
                   <td>
                     <button
-                      stlye={{ width: "100%" }}
+                      style={{ width: "100%" }}
                       onClick={() => setImageToShow("")}
                     >
                       Hide
@@ -212,7 +212,7 @@ function App() {
                   </td>
                   <td>
                     <button
-                      stlye={{ width: "100%" }}
+                      style={{ width: "100%" }}
                       onClick={() => deleteFileFromS3(image.key)}
                     >
                       {appText.buttons.showImage}
