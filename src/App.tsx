@@ -179,7 +179,10 @@ function App() {
       {
         <>
           <hr />
-          <table style={{ marginBottom: "16px" }} width={"100%"}>
+          <table
+            style={{ marginBottom: "16px", padding: "16px" }}
+            width={"100%"}
+          >
             <thead>
               <tr>
                 <th>{appText.table.index}</th>
@@ -192,15 +195,26 @@ function App() {
                   <td>{index + 1}</td>
                   <td>{image.key}</td>
                   <td>
-                    <button onClick={() => getFileFromS3(image.key)}>
+                    <button
+                      stlye={{ width: "100%" }}
+                      onClick={() => getFileFromS3(image.key)}
+                    >
                       {appText.buttons.showImage}
                     </button>
                   </td>
                   <td>
-                    <button onClick={() => setImageToShow("")}>Hide</button>
+                    <button
+                      stlye={{ width: "100%" }}
+                      onClick={() => setImageToShow("")}
+                    >
+                      Hide
+                    </button>
                   </td>
                   <td>
-                    <button onClick={() => deleteFileFromS3(image.key)}>
+                    <button
+                      stlye={{ width: "100%" }}
+                      onClick={() => deleteFileFromS3(image.key)}
+                    >
                       {appText.buttons.showImage}
                     </button>
                   </td>
