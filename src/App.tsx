@@ -1,8 +1,9 @@
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Amplify } from "@aws-amplify/core";
 import { Storage } from "@aws-amplify/storage";
+import appText from "./text.json";
 
 // Configure Amplify
 Amplify.configure({
@@ -90,12 +91,20 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
+  fetchImages();
 
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        margin: "16px",
+      }}
+    >
       {errorMessage && <h4 style={{ color: "tomato" }}>{errorMessage}</h4>}
       {progress && <h4 style={{ color: "lightgreen" }}>{progress}</h4>}
       <h1>React S3 Demo App</h1>
@@ -106,10 +115,18 @@ function App() {
         onChange={handleFileUpload}
       />
       <button
-        style={{ width: "100%", background: "#ffd369", marginBottom: "16px" }}
+        style={{
+          width: "100%",
+          background: "#ffd369",
+          marginBottom: "16px",
+          padding: "16px",
+          fontWeight: "bold",
+          fontSize: "16px",
+          letterSpacing: "0.125rem",
+        }}
         onClick={() => ref.current?.click()}
       >
-        Upload
+        {appText.buttons.upload}
       </button>
       {isFetching ? (
         <Spinner />
