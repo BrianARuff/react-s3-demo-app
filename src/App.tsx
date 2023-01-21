@@ -107,9 +107,8 @@ function App() {
         margin: "16px",
       }}
     >
-      {progress ||
-        isFetching ||
-        (true && (
+      {(progress ||
+        isFetching) && (
           <div
             style={{
               position: "absolute",
