@@ -215,7 +215,7 @@ function App() {
                       style={{ width: "100%" }}
                       onClick={() => deleteFileFromS3(image.key)}
                     >
-                      {appText.buttons.showImage}
+                      {appText.buttons.deleteImage}
                     </button>
                   </td>
                 </tr>
