@@ -179,18 +179,18 @@ function App() {
       {
         <>
           <hr />
-          {images?.results?.map((image: any, index: number) => (
-            <table
-              style={{ marginBottom: "16px" }}
-              width={"100%"}
-              key={image.key}
-            >
-              <thead>
-                <tr>
-                  <th>{appText.table.index}</th>
-                  <th>{appText.table.name}</th>
-                </tr>
-              </thead>
+          <table
+            style={{ marginBottom: "16px" }}
+            width={"100%"}
+            key={image.key}
+          >
+            <thead>
+              <tr>
+                <th>{appText.table.index}</th>
+                <th>{appText.table.name}</th>
+              </tr>
+            </thead>
+            {images?.results?.map((image: any, index: number) => (
               <tbody>
                 <tr>
                   <td>{index + 1}</td>
@@ -210,8 +210,8 @@ function App() {
                   </td>
                 </tr>
               </tbody>
-            </table>
-          ))}
+            ))}
+          </table>
         </>
       }
       {imageList?.length > 0 && (
