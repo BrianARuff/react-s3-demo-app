@@ -1,5 +1,12 @@
 {
   "buttons": {
-    "upload": "Upload"
+    "upload": "Upload",
+    "showImage": "Show Image",
+    "deleteImage": "Delete Image"
+  },
+  "title": "React S3 Demo App",
+  "table": {
+    "index": "Index",
+    "name": "Name"
   }
 }

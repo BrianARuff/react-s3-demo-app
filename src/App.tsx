@@ -1,6 +1,6 @@
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Amplify } from "@aws-amplify/core";
 import { Storage } from "@aws-amplify/storage";
 import appText from "./text.json";
@@ -91,7 +91,9 @@ function App() {
     }
   };
 
-  fetchImages();
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   return (
     <div
@@ -105,9 +107,46 @@ function App() {
         margin: "16px",
       }}
     >
-      {errorMessage && <h4 style={{ color: "tomato" }}>{errorMessage}</h4>}
-      {progress && <h4 style={{ color: "lightgreen" }}>{progress}</h4>}
-      <h1>React S3 Demo App</h1>
+      {errorMessage && (
+        <h4
+          style={{
+            color: "tomato",
+            fontSize: "24px",
+            background: "#000",
+            position: "fixed",
+            top: "22px",
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            padding: "16px",
+          }}
+        >
+          {errorMessage}
+        </h4>
+      )}
+      {progress && (
+        <h4
+          style={{
+            color: "#fff",
+            background: "lightgreen",
+            fontWeight: "bold",
+            fontSize: "24px",
+            position: "fixed",
+            top: "22px",
+            left: 0,
+            right: 0,
+            display: "flex",
+            justifyContent: "center",
+            padding: "16px",
+          }}
+        >
+          {progress}
+        </h4>
+      )}
+      <h1 style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}>
+        {appText.title}
+      </h1>
       <input
         style={{ display: "none" }}
         type="file"
@@ -123,6 +162,9 @@ function App() {
           fontWeight: "bold",
           fontSize: "16px",
           letterSpacing: "0.125rem",
+          position: "fixed",
+          top: 0,
+          left: 0,
         }}
         onClick={() => ref.current?.click()}
       >
@@ -145,8 +187,8 @@ function App() {
             >
               <thead>
                 <tr>
-                  <th>Index</th>
-                  <th>Name</th>
+                  <th>{appText.table.index}</th>
+                  <th>{appText.table.name}</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,7 +197,7 @@ function App() {
                   <td>{image.key}</td>
                   <td>
                     <button onClick={() => getFileFromS3(image.key)}>
-                      Show
+                      {appText.buttons.showImage}
                     </button>
                   </td>
                   <td>
@@ -163,7 +205,7 @@ function App() {
                   </td>
                   <td>
                     <button onClick={() => deleteFileFromS3(image.key)}>
-                      Delete
+                      {appText.buttons.showImage}
                     </button>
                   </td>
                 </tr>
