@@ -179,11 +179,7 @@ function App() {
       {
         <>
           <hr />
-          <table
-            style={{ marginBottom: "16px" }}
-            width={"100%"}
-            key={image.key}
-          >
+          <table style={{ marginBottom: "16px" }} width={"100%"}>
             <thead>
               <tr>
                 <th>{appText.table.index}</th>
