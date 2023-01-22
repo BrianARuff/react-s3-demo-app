@@ -183,7 +183,7 @@ function App() {
   } else {
     return (
       <div
-        className={`container mx-auto px-4 ${errorMessage ? 'mt-0' : '  mt-8'}`}
+        className={`container mx-auto px-4 ${errorMessage ? 'mt-0' : ' mt-8'}`}
       >
         {errorMessage && (
           <h4

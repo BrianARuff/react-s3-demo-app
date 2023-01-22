@@ -47,13 +47,13 @@ export const Image = (props: any) => {
                 style={styles}
                 src={imageList[index]}
                 alt="upload"
-                className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
+                className="w-80 h-80 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             /> : <video
                 muted
                 autoPlay
                 style={styles}
                 src={imageList[index]}
-                className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
+                className="w-80 h-80 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             />
         }
         <button tabIndex={imageToShow ? -1 : 0} onClick={(e) => {

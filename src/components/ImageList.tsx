@@ -26,7 +26,7 @@ export const ImageList = ({
 
   if (imageList?.length > 0 && !isFetching) {
     return (
-      <div className="flex flex-wrap justify-center mt-8" >
+      <div className="flex flex-wrap justify-center">
         {images?.map((image: any, index) => {
           return (
             <div
