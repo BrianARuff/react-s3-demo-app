@@ -143,6 +143,7 @@ function App() {
       console.log("Error deleting all files from S3: ", error);
       setErrorMessage("Error deleting all files from S3");
     }
+    setProgress(0);
   };
 
   useEffect(() => {
