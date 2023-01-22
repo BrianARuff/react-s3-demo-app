@@ -5,6 +5,7 @@ import { Amplify } from "@aws-amplify/core";
 import { Storage } from "@aws-amplify/storage";
 import appText from "./text.json";
 import { ImageTable } from "./components/ImageTable";
+import { ImageList } from "./components/ImageList";
 
 // Configure Amplify...
 Amplify.configure({
@@ -199,31 +200,7 @@ function App() {
         setImageToShow={setImageToShow}
         deleteFileFromS3={deleteFileFromS3}
       />
-      {imageList?.length > 0 && (
-        <>
-          <hr />
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "column",
-              width: "100%",
-            }}
-          >
-            {imageList?.map((url: string) => (
-              <img
-                key={url}
-                src={url}
-                alt="upload"
-                height="300px"
-                style={{ padding: "0px 16px 16px 0px" }}
-              />
-            ))}
-          </div>
-        </>
-      )}
+      <ImageList imageList={imageList ?? []} />
     </div>
   );
 }
