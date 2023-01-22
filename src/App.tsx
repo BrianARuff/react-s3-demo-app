@@ -214,6 +214,7 @@ function App() {
           type="file"
           ref={ref}
           onChange={handleFileUpload}
+          multiple={true}
         />
         <button
           style={{
