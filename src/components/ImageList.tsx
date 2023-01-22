@@ -8,7 +8,13 @@ export const ImageList = ({
   isFetching: boolean;
 }) => {
   if (isFetching) {
-    return <ClockLoader color="#ffd369" size={33} />;
+    return (
+      <ClockLoader
+        color="#ffd369"
+        size={33}
+        cssOverride={{ marginBottom: "16px" }}
+      />
+    );
   }
 
   if (imageList?.length > 0) {

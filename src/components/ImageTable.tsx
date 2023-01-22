@@ -10,7 +10,13 @@ export const ImageTable = ({
   deleteFileFromS3 = (id: string) => {},
 }) => {
   if (isFetching) {
-    return <ClockLoader color="#ffd369" size={33} />;
+    return (
+      <ClockLoader
+        color="#ffd369"
+        size={33}
+        cssOverride={{ marginBottom: "16px" }}
+      />
+    );
   }
 
   if (!errorMessage && images.length && !isFetching) {
