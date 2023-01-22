@@ -2,7 +2,8 @@
   "buttons": {
     "upload": "Upload Image/Images",
     "showImage": "Show Image",
-    "deleteImage": "Delete Image"
+    "deleteImage": "Delete Image",
+    "deleteAllImages": "Delete All Images"
   },
   "title": "AWS-S3 Bucket Demo with React UI",
   "table": {
@@ -11,5 +12,15 @@
   },
   "loading": "Loading...",
   "noImagesFound": "No Images Founds :(.",
-  "haveYouTriedUploading": "Have you tried uploading any?"
+  "haveYouTriedUploading": "Have you tried uploading any?",
+  "modals": {
+    "deleteImage": {
+      "title": "Delete Image",
+      "body": "Are you sure you want to delete this image?",
+      "buttons": {
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    }
+  }
 }

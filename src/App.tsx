@@ -7,7 +7,7 @@ import { Storage } from "@aws-amplify/storage";
 
 import "./App.css";
 import appText from "./text.json";
-import { ImageTable, ImageList } from "./components";
+import { ImageTable, ImageList, ConfirmModal } from "./components";
 
 // Configure Amplify
 Amplify.configure({
@@ -31,6 +31,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [imageList, setImageList] = useState<string[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
 
   const fetchImages = async () => {
     try {
@@ -213,16 +214,51 @@ function App() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "baseline",
             marginBottom: "16px",
           }}
         >
+          <ConfirmModal
+            title={appText.modals.deleteImage.title}
+            message={appText.modals.deleteImage.body}
+            onConfirm={() => {
+              deleteAllFilesFromS3();
+              setIsConfirmModalOpen(false);
+            }}
+            onCancel={() => setIsConfirmModalOpen(false)}
+            isOpen={isConfirmModalOpen}
+          >
+            <button
+              style={{
+                background: "#F75F5E",
+                padding: "16px",
+                fontWeight: "bold",
+                fontSize: "16px",
+                color: "#fff",
+              }}
+              onClick={() => setIsConfirmModalOpen(true)}
+            >
+              {appText.buttons.deleteImage}
+            </button>
+          </ConfirmModal>
           <h1
             style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}
           >
             {appText.title}
           </h1>
-          <button onClick={deleteAllFilesFromS3}>Delete All Images</button>
+          <button
+            style={{
+              marginRight: "32px",
+              background: "#F75F5E",
+              padding: "16px",
+              fontWeight: "bold",
+              fontSize: "16px",
+              color: "#fff",
+            }}
+            onClick={deleteAllFilesFromS3}
+          >
+            {appText.buttons.deleteAllImages}
+          </button>
         </div>
         <input
           style={{ display: "none" }}
@@ -248,11 +284,7 @@ function App() {
         >
           {appText.buttons.upload}
         </button>
-        {isFetching ? (
-          <Spinner />
-        ) : (
-          imageToShow && <img src={imageToShow} alt="upload" height="300px" />
-        )}
+        {imageToShow && <img src={imageToShow} alt="upload" height="300px" />}
         <ImageTable
           images={images?.results ?? []}
           isFetching={isFetching}
@@ -268,7 +300,3 @@ function App() {
 }
 
 export default App;
-
-const Spinner = () => {
-  return <div className="loader"></div>;
-};
