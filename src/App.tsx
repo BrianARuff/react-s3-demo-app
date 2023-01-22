@@ -50,9 +50,7 @@ function App() {
           console.log("Error setting image list", err);
         })
         .finally(() => {
-          new Promise((resolve) => setTimeout(resolve, 1500)).then(() => {
-            setIsFetching(false);
-          });
+          setIsFetching(false);
         });
     } catch (error) {
       console.log("Error fetching images: ", error);
