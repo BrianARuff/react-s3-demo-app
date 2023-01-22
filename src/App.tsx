@@ -163,7 +163,7 @@ function App() {
           flexDirection: "column",
         }}
       >
-        <h1 style={{ marginBottom: "16px" }}>{appText.title}</h1>
+        <h1 className="text-4xl font-bold text-center text-black mb-8">{appText.title}</h1>
         <ClockLoader
           color="#FFDD39"
           size={250}
