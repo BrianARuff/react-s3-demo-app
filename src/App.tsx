@@ -195,6 +195,7 @@ function App() {
       )}
       <ImageTable
         images={images?.results ?? []}
+        isFetching={isFetching}
         errorMessage={errorMessage ?? ""}
         getFileFromS3={getFileFromS3}
         setImageToShow={setImageToShow}

@@ -1,13 +1,14 @@
 import appText from "../text.json";
 
 export const ImageTable = ({
-  errorMessage = "",
   images = [],
+  errorMessage = "",
+  isFetching = false,
   getFileFromS3 = (id: string) => {},
   setImageToShow = (id: string) => {},
   deleteFileFromS3 = (id: string) => {},
 }) => {
-  if (!errorMessage && images.length) {
+  if (!errorMessage && images.length && !isFetching) {
     return (
       <>
         <hr />
@@ -55,7 +56,7 @@ export const ImageTable = ({
     );
   }
 
-  if (!errorMessage && !images.length) {
+  if (!errorMessage && !images.length && !isFetching) {
     return (
       <>
         <h3>{appText.noImagesFound}</h3>
