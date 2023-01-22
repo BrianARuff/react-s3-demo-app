@@ -28,7 +28,7 @@ function App() {
   const [imageToShow, setImageToShow] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [imageList, setImageList] = useState<string[]>([]);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(true);
 
   const handleFileUpload = async () => {
     const file = ref.current?.files?.[0];
