@@ -26,7 +26,8 @@ export const ImageToShowModal = ({
     }
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-50">
+        <div
+            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-50">
             <div className="relative border-4 border-tomato rounded-lg relative">
                 <button
                     ref={closeModalButtonRef}
@@ -39,14 +40,12 @@ export const ImageToShowModal = ({
                         setImageToShow("");
                         setIsLoadingImageToShow(false);
                     }}
-                    // check escape key
                     onKeyDown={(e) => {
                         e.stopPropagation();
                         if (e.key === "Escape" || e.keyCode === 27) {
                             setImageToShow("");
                             setIsLoadingImageToShow(false);
                         }
-                        // check space bar
                         if (e.key === " " || e.keyCode === 32) {
                             setImageToShow("");
                             setIsLoadingImageToShow(false);
@@ -72,7 +71,9 @@ export const ImageToShowModal = ({
                 {
                     isImage(imageKeyShowing.split('.')[1].split('-')[0]) ?
                         <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
-                        : <video style={{ maxHeight: '95vh', width: '100%' }} className="object-cover object-center rounded-lg" controls={true}
+                        : <video style={{
+                            height: '50vh',
+                        }} className="object-cover object-center rounded-lg" controls={true}
                             src={imageToShow} />
                 }
                 <p className="

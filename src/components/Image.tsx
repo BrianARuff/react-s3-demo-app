@@ -48,7 +48,6 @@ export const Image = (props: any) => {
                 alt="upload"
                 className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             /> : <video
-                controls={true}
                 style={styles}
                 height={'300px'}
                 width={'100%'}
