@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Amplify } from "@aws-amplify/core";
 import { Storage } from "@aws-amplify/storage";
 import appText from "./text.json";
+import { ImageTable } from "./components/ImageTable";
 
 // Configure Amplify...
 Amplify.configure({
@@ -191,7 +192,13 @@ function App() {
       ) : (
         imageToShow && <img src={imageToShow} alt="upload" height="300px" />
       )}
-      <ImageTable images={imageList} errorMessage={errorMessage} />
+      <ImageTable
+        images={images?.results ?? []}
+        errorMessage={errorMessage ?? ""}
+        getFileFromS3={getFileFromS3}
+        setImageToShow={setImageToShow}
+        deleteFileFromS3={deleteFileFromS3}
+      />
       {imageList?.length > 0 && (
         <>
           <hr />
@@ -225,63 +232,4 @@ export default App;
 
 const Spinner = () => {
   return <div className="loader"></div>;
-};
-
-const ImageTable = (errorMessage = "", images = []) => {
-  if (!errorMessage && images.length) {
-    return (
-      <>
-        <hr />
-        <table style={{ marginBottom: "16px", padding: "16px" }} width={"100%"}>
-          <thead>
-            <tr>
-              <th>{appText.table.index}</th>
-              <th>{appText.table.name}</th>
-            </tr>
-          </thead>
-          {images?.results?.map((image: any, index: number) => (
-            <tbody>
-              <tr>
-                <td>{index + 1}</td>
-                <td>{image.key}</td>
-                <td>
-                  <button
-                    style={{ width: "100%" }}
-                    onClick={() => getFileFromS3(image.key)}
-                  >
-                    {appText.buttons.showImage}
-                  </button>
-                </td>
-                <td>
-                  <button
-                    style={{ width: "100%" }}
-                    onClick={() => setImageToShow("")}
-                  >
-                    Hide
-                  </button>
-                </td>
-                <td>
-                  <button
-                    style={{ width: "100%" }}
-                    onClick={() => deleteFileFromS3(image.key)}
-                  >
-                    {appText.buttons.deleteImage}
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          ))}
-        </table>
-      </>
-    );
-  }
-
-  if (!errorMessage && !images.length) {
-    return (
-      <>
-        <h3>{appText.noImagesFound}</h3>
-        <p>{appText.haveYouTriedUploading}</p>
-      </>
-    );
-  }
 };
