@@ -151,7 +151,7 @@ function App() {
       >
         <ClockLoader
           color="#ffd369"
-          size={33}
+          size={250}
           cssOverride={{ marginBottom: "16px" }}
         />
       </div>
