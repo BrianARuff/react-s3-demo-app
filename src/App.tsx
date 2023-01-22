@@ -7,7 +7,7 @@ import appText from "./text.json";
 import { ImageTable } from "./components/ImageTable";
 import { ImageList } from "./components/ImageList";
 
-// Configure Amplify...
+// Configure Amplify
 Amplify.configure({
   Auth: {
     identityPoolId: process.env.REACT_APP_S3_identityPoolId,
