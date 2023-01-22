@@ -53,6 +53,7 @@ function App() {
 
   const fetchImages = async () => {
     try {
+      setIsFetching(true);
       const imageListFromS3 = await Storage.list("");
       setImages(imageListFromS3);
       await Promise.all(
@@ -60,25 +61,30 @@ function App() {
           const url = await Storage.get(image.key);
           return url;
         })
-      ).then((imageUrls) => {
-        setImageList(imageUrls);
-      });
+      )
+        .then((imageUrls) => {
+          setImageList(imageUrls);
+        })
+        .catch((err) => {
+          console.log("Error setting image list", err);
+        })
+        .finally(() => {
+          setIsFetching(false);
+        });
     } catch (error) {
       console.log("Error fetching images: ", error);
       setErrorMessage("Error fetching images");
+      setIsFetching(false);
     }
   };
 
   const getFileFromS3 = async (key: string) => {
-    setIsFetching(true);
     try {
       const url = await Storage.get(key);
       setImageToShow(url);
-      setIsFetching(false);
     } catch (error) {
       console.log("Error getting file from S3: ", error);
       setErrorMessage("Error getting file from S3");
-      setIsFetching(false);
     }
   };
 
