@@ -50,7 +50,9 @@ function App() {
           console.log("Error setting image list", err);
         })
         .finally(() => {
-          setIsFetching(false);
+          new Promise((resolve) => setTimeout(resolve, 1500)).then(() => {
+            setIsFetching(false);
+          });
         });
     } catch (error) {
       console.log("Error fetching images: ", error);
@@ -140,7 +142,7 @@ function App() {
       >
         <h1 style={{ marginBottom: "16px" }}>{appText.title}</h1>
         <ClockLoader
-          color="#ffd369"
+          color="#FFDD39"
           size={250}
           cssOverride={{ marginBottom: "16px" }}
         />
