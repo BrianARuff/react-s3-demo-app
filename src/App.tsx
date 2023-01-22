@@ -192,7 +192,7 @@ function App() {
         imageToShow && <img src={imageToShow} alt="upload" height="300px" />
       )}
 
-      {
+      {!errorMessage && images?.length ? (
         <>
           <hr />
           <table
@@ -239,7 +239,12 @@ function App() {
             ))}
           </table>
         </>
-      }
+      ) : !errorMessage && !images.length ? (
+        <>
+          <h3>{appText.noImagesFound}</h3>
+          <p>{appText.haveYouTriedUploading}</p>
+        </>
+      ) : null}
       {imageList?.length > 0 && (
         <>
           <hr />

@@ -4,10 +4,12 @@
     "showImage": "Show Image",
     "deleteImage": "Delete Image"
   },
-  "title": "React S3 Demo App",
+  "title": "AWS-S3 Bucket Demo with React UI",
   "table": {
     "index": "Index",
     "name": "Name"
   },
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "noImagesFound": "No Images Founds :(.",
+  "haveYouTriedUploading": "Have you tried uploading any?"
 }
