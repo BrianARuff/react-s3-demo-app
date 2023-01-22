@@ -17,7 +17,8 @@ export const Image = (props: any) => {
     const [styles, setStyles] = useState({});
 
     return <div
-        onClick={async () => {
+        onClick={async (e) => {
+            e.preventDefault();
             getFileFromS3(image.key)
 
             new Promise((resolve) => {
@@ -55,7 +56,10 @@ export const Image = (props: any) => {
                 className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             />
         }
-        <button tabIndex={imageToShow ? -1 : 0} onClick={() => deleteFileFromS3(image.key)} className="absolute bottom-0 right-0 mr-4 mb-4 bg-white rounded-full p-2 hover:bg-gray-200 hover:scale-110 transition duration-200">
+        <button tabIndex={imageToShow ? -1 : 0} onClick={(e) => {
+            e.preventDefault();
+            deleteFileFromS3(image.key);
+        }} className="absolute bottom-0 right-0 mr-4 mb-4 bg-white rounded-full p-2 hover:bg-gray-200 hover:scale-110 transition duration-200">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6 text-red-500"

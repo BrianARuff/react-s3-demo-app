@@ -1,5 +1,4 @@
 import { isImage } from '../App';
-import appText from '../text.json';
 import { useRef } from 'react';
 
 export const ImageToShowModal = ({
@@ -26,9 +25,8 @@ export const ImageToShowModal = ({
     }
 
     return (
-        <div
-            className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-50">
-            <div className="relative border-4 border-tomato rounded-lg relative">
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-50">
+            <div className="relative rounded-lg relative w-full p-4 flex justify-center items-center">
                 <button
                     ref={closeModalButtonRef}
                     className="fixed top-10 mb-5 right-0 mr-4 mt-4 p-0 bg-white rounded-full p-1 hover:bg-gray-200 hover:scale-110 transition duration-200"
@@ -70,19 +68,19 @@ export const ImageToShowModal = ({
                 </button>
                 {
                     isImage(imageKeyShowing.split('.')[1].split('-')[0]) ?
-                        <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
+                        <img
+                            src={imageToShow} alt="upload"
+                            className='rounded'
+                        />
                         : <video
                             controls
                             muted
                             style={{
-                                height: '75vh',
+                                height: '90vh',
                             }}
-                            className="object-cover object-center rounded-lg"
+                            className="rounded"
                             src={imageToShow} />
                 }
-                <p className="
-                        absolute top-0 left-30 right-0 ml-4 mb-4 bg-white p-2 w-full text-center text-gray-700
-                    ">{appText.fileName} {imageKeyShowing}</p>
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Amplify } from "@aws-amplify/core";
-import { ClockLoader } from "react-spinners";
+import { GridLoader } from "react-spinners";
 import { Storage } from "@aws-amplify/storage";
 
 import appText from "./text.json";
@@ -12,9 +12,9 @@ import {
   ImageToShowModal,
 } from "./components";
 import "./App.css";
-import { Button, Progress } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
-export const commonImageTypes = ["jpg", "png", "gif", "svg", "webp", "bmp", "ico", "cur", "tif", "tiff", "jfif", "pjpeg", "pjp", "avif", "apng"];
+export const commonImageTypes = ["jpg", "jpeg", "png", "gif", "svg", "webp", "bmp", "ico", "cur", "tif", "tiff", "jfif", "pjpeg", "pjp", "avif", "apng"];
 
 export const isImage = (mediaType: string) => {
 
@@ -125,8 +125,6 @@ function App() {
   };
 
   const deleteFileFromS3 = async (key: string) => {
-    setImageToShow("");
-
     try {
       await Storage.remove(key);
       await fetchImages();
@@ -134,6 +132,9 @@ function App() {
       console.log("Error deleting file from S3: ", error);
       setErrorMessage("Error deleting file from S3");
     }
+
+    setImageKeyShowing("");
+    setImageToShow("");
   };
 
   const deleteAllFilesFromS3 = async () => {
@@ -172,9 +173,9 @@ function App() {
         }}
       >
         <h1 className="text-4xl font-bold text-center text-black mb-8">{appText.title}</h1>
-        <ClockLoader
+        <GridLoader
           color="#FFDD39"
-          size={250}
+          size={25}
           cssOverride={{ marginBottom: "16px" }}
         />
       </div>
@@ -217,12 +218,13 @@ function App() {
           </ConfirmModal>
         </div>
         <UploadButton imageToShow={imageToShow} errorMessage={errorMessage} progress={progress} handleFileUpload={handleFileUpload} />
-        <Progress value={progress} size={'sm'} bg="blue.500" />
-        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-          <div className="bg-blue-600 h-2.5 rounded-full" style={{
-            width: `${progress}%`
-          }}></div>
-        </div>
+        {
+          progress > 0 && <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="bg-blue-600 h-2.5 rounded-full" style={{
+              width: `${progress}%`
+            }}></div>
+          </div>
+        }
         {
           !isFetching && <ImageToShowModal isFetching={isFetching} isLoadingImageToShow={isLoadingImageToShow} imageKeyShowing={imageKeyShowing} imageToShow={imageToShow} setImageToShow={setImageToShow} setIsLoadingImageToShow={setIsLoadingImageToShow} />
         }

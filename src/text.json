@@ -18,7 +18,7 @@
   "modals": {
     "deleteImage": {
       "title": "Delete Image",
-      "body": "Are you sure you want to delete this image?",
+      "body": "Are you sure you want to do this? This will delete all the images.",
       "buttons": {
         "cancel": "Cancel",
         "delete": "Delete"
