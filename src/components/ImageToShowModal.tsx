@@ -71,9 +71,16 @@ export const ImageToShowModal = ({
                 {
                     isImage(imageKeyShowing.split('.')[1].split('-')[0]) ?
                         <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
-                        : <video style={{
-                            height: '50vh',
-                        }} className="object-cover object-center rounded-lg" controls={true}
+                        : <video
+                            controls
+                            muted
+                            playsInline
+                            autoPlay
+                            loop
+                            style={{
+                                height: '50vh',
+                            }}
+                            className="object-cover object-center rounded-lg"
                             src={imageToShow} />
                 }
                 <p className="
