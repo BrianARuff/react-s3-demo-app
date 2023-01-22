@@ -1,11 +1,13 @@
-import "./App.css";
-import { v4 as uuidv4 } from "uuid";
 import { useEffect, useRef, useState } from "react";
+
+import { v4 as uuidv4 } from "uuid";
 import { Amplify } from "@aws-amplify/core";
+import { ClockLoader } from "react-spinners";
 import { Storage } from "@aws-amplify/storage";
+
+import "./App.css";
 import appText from "./text.json";
-import { ImageTable } from "./components/ImageTable";
-import { ImageList } from "./components/ImageList";
+import { ImageTable, ImageList } from "./components";
 
 // Configure Amplify
 Amplify.configure({
@@ -102,6 +104,28 @@ function App() {
   useEffect(() => {
     fetchImages();
   }, []);
+
+  if (isFetching) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          margin: "16px",
+        }}
+      >
+        <ClockLoader
+          color="#ffd369"
+          size={33}
+          cssOverride={{ marginBottom: "16px" }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div

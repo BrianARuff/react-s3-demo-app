@@ -1,5 +1,3 @@
-import { ClockLoader } from "react-spinners";
-
 export const ImageList = ({
   imageList,
   isFetching,
@@ -7,16 +5,6 @@ export const ImageList = ({
   imageList: string[];
   isFetching: boolean;
 }) => {
-  if (isFetching) {
-    return (
-      <ClockLoader
-        color="#ffd369"
-        size={33}
-        cssOverride={{ marginBottom: "16px" }}
-      />
-    );
-  }
-
   if (imageList?.length > 0) {
     return (
       <>
