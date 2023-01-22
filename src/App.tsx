@@ -32,60 +32,6 @@ function App() {
   const [imageList, setImageList] = useState<string[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
-  const handleFileUpload = async () => {
-    const files = ref.current?.files || [];
-
-    if (!files.length) {
-      return;
-    }
-
-    if (files.length === 1) {
-      const file = ref.current?.files?.[0];
-
-      if (file?.name) {
-        Storage.put(`${file.name}-${uuidv4()}`, file, {
-          progressCallback(progress: any) {
-            const percetnage = Math.round(
-              (progress.loaded / progress.total) * 100
-            );
-            setProgress(`Uploaded: ${percetnage}%`);
-          },
-        })
-          .then((resp) => {
-            console.log("File uploaded: ", resp);
-            setProgress("");
-            fetchImages();
-          })
-          .catch((err) => {
-            setProgress("");
-            console.log("Error uploading file: ", err);
-          });
-      }
-    }
-
-    if (files.length > 1) {
-      (files as [])?.forEach((file: any) => {
-        Storage.put(`${file.name}-${uuidv4()}`, file, {
-          progressCallback(progress: any) {
-            const percetnage = Math.round(
-              (progress.loaded / progress.total) * 100
-            );
-            setProgress(`Uploaded: ${percetnage}%`);
-          },
-        })
-          .then((resp) => {
-            console.log("File uploaded: ", resp);
-            setProgress("");
-            fetchImages();
-          })
-          .catch((err) => {
-            setProgress("");
-            console.log("Error uploading file: ", err);
-          });
-      });
-    }
-  };
-
   const fetchImages = async () => {
     try {
       setIsFetching(true);
@@ -111,6 +57,50 @@ function App() {
       setErrorMessage("Error fetching images");
       setIsFetching(false);
     }
+  };
+
+  const storeFile = (file: any) => {
+    Storage.put(`${file.name}-${uuidv4()}`, file, {
+      progressCallback(progress: any) {
+        const percetnage = Math.round(
+          (progress.loaded / progress.total) * 100
+        );
+        setProgress(`Uploaded: ${percetnage}%`);
+      },
+    })
+      .then((resp) => {
+        console.log("File uploaded: ", resp);
+        setProgress("");
+        fetchImages();
+      })
+      .catch((err) => {
+        setProgress("");
+        console.log("Error uploading file: ", err);
+      });
+  }
+
+  const handleFileUpload = async () => {
+    const files = ref.current?.files || [];
+
+    if (!files.length) {
+      return;
+    }
+
+    if (files.length === 1) {
+      const file = ref.current?.files?.[0];
+
+      if (file?.name) {
+        storeFile(file);
+      }
+    }
+
+    if (files.length > 1) {
+      for(let i = 0; i < files.length; i++) {
+        const file = files?.[i];
+        if (file) {
+          storeFile(file);
+        }
+      }
   };
 
   const getFileFromS3 = async (key: string) => {
