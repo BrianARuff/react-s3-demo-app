@@ -1,6 +1,7 @@
 import { isImage } from '../App';
 import appText from '../text.json';
 import { useRef } from 'react';
+import { isMobile } from 'react-device-detect';
 
 export const ImageToShowModal = ({
     isLoadingImageToShow,
@@ -31,7 +32,7 @@ export const ImageToShowModal = ({
             <div className="relative border-4 border-tomato rounded-lg relative">
                 <button
                     ref={closeModalButtonRef}
-                    className="fixed top-0 right-0 mr-4 mt-4 bg-white rounded-full p-2 hover:bg-gray-200 hover:scale-110 transition duration-200"
+                    className="fixed top-10 mb-5 right-0 mr-4 mt-4 p-0 bg-white rounded-full p-1 hover:bg-gray-200 hover:scale-110 transition duration-200"
                     style={{
                         zIndex: 9999,
                     }}
@@ -78,7 +79,8 @@ export const ImageToShowModal = ({
                             autoPlay
                             loop
                             style={{
-                                height: '50vh',
+                                height: isMobile ? '95vh' : 'inherit',
+                                width: isMobile ? '100vw' : 'inherit'
                             }}
                             className="object-cover object-center rounded-lg"
                             src={imageToShow} />
