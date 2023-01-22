@@ -75,7 +75,6 @@ export const ImageToShowModal = ({
                         : <video
                             controls
                             muted
-                            loop
                             style={{
                                 height: isMobile ? '95vh' : 'inherit',
                                 width: isMobile ? '100vw' : 'inherit'
