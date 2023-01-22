@@ -49,8 +49,6 @@ export const Image = (props: any) => {
                 className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             /> : <video
                 muted
-                playsInline
-                autoPlay
                 loop
                 style={styles}
                 src={imageList[index]}

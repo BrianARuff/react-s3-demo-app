@@ -75,8 +75,6 @@ export const ImageToShowModal = ({
                         : <video
                             controls
                             muted
-                            playsInline
-                            autoPlay
                             loop
                             style={{
                                 height: isMobile ? '95vh' : 'inherit',
