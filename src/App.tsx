@@ -113,12 +113,25 @@ function App() {
 
   const deleteFileFromS3 = async (key: string) => {
     setImageToShow("");
+
     try {
       await Storage.remove(key);
       await fetchImages();
     } catch (error) {
       console.log("Error deleting file from S3: ", error);
       setErrorMessage("Error deleting file from S3");
+    }
+  };
+
+  const deleteAllFilesFromS3 = async () => {
+    setImageToShow("");
+
+    try {
+      await Storage.remove("");
+      await fetchImages();
+    } catch (error) {
+      console.log("Error deleting all files from S3: ", error);
+      setErrorMessage("Error deleting all files from S3");
     }
   };
 
@@ -196,9 +209,21 @@ function App() {
             {progress}
           </h4>
         )}
-        <h1 style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}>
-          {appText.title}
-        </h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "16px",
+          }}
+        >
+          <h1
+            style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}
+          >
+            {appText.title}
+          </h1>
+          <button onClick={deleteAllFilesFromS3}>Delete All Images</button>
+        </div>
         <input
           style={{ display: "none" }}
           type="file"
