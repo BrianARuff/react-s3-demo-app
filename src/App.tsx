@@ -149,6 +149,7 @@ function App() {
           width: "100%",
         }}
       >
+        <h1 style={{ marginBottom: "16px" }}>{appText.title}</h1>
         <ClockLoader
           color="#ffd369"
           size={250}
