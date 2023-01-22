@@ -7,7 +7,12 @@ import { Storage } from "@aws-amplify/storage";
 
 import "./App.css";
 import appText from "./text.json";
-import { ImageTable, ImageList, ConfirmModal } from "./components";
+import {
+  ImageTable,
+  ImageList,
+  ConfirmModal,
+  ProgressBarBanner,
+} from "./components";
 
 // Configure Amplify
 Amplify.configure({
@@ -128,8 +133,14 @@ function App() {
     setImageToShow("");
 
     try {
-      await Storage.remove("");
-      await fetchImages();
+      if (images.length) {
+        await Promise.all(
+          images?.results?.map(async (image: any) => {
+            await Storage.remove(image.key);
+          })
+        );
+        await fetchImages();
+      }
     } catch (error) {
       console.log("Error deleting all files from S3: ", error);
       setErrorMessage("Error deleting all files from S3");
@@ -173,7 +184,7 @@ function App() {
           margin: "16px",
         }}
       >
-        {errorMessage && (
+        {/* {errorMessage && (
           <h4
             style={{
               color: "tomato",
@@ -190,34 +201,13 @@ function App() {
           >
             {errorMessage}
           </h4>
-        )}
-        {progress && (
-          <h4
-            style={{
-              color: "#fff",
-              background: "lightgreen",
-              fontWeight: "bold",
-              fontSize: "24px",
-              position: "fixed",
-              top: "22px",
-              left: 0,
-              right: 0,
-              display: "flex",
-              justifyContent: "center",
-              padding: "16px",
-            }}
-          >
-            {progress}
-          </h4>
-        )}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "baseline",
-            marginBottom: "16px",
-          }}
-        >
+        )} */}
+        {/* {progress && ( */}
+        <ProgressBarBanner progress={"50"} />
+        {/* )} */}
+        {/* div with h1 and confirm modal, style contianer and h1 with tailwind class names */}
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-4xl font-bold mb-4">{appText.title}</h1>
           <ConfirmModal
             title={appText.modals.deleteImage.title}
             message={appText.modals.deleteImage.body}
@@ -241,24 +231,6 @@ function App() {
               {appText.buttons.deleteImage}
             </button>
           </ConfirmModal>
-          <h1
-            style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}
-          >
-            {appText.title}
-          </h1>
-          <button
-            style={{
-              marginRight: "32px",
-              background: "#F75F5E",
-              padding: "16px",
-              fontWeight: "bold",
-              fontSize: "16px",
-              color: "#fff",
-            }}
-            onClick={deleteAllFilesFromS3}
-          >
-            {appText.buttons.deleteAllImages}
-          </button>
         </div>
         <input
           style={{ display: "none" }}

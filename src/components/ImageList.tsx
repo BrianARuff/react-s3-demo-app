@@ -7,32 +7,22 @@ export const ImageList = ({
 }) => {
   if (imageList?.length > 0) {
     return (
-      <>
-        <hr />
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "column",
-            width: "100%",
-          }}
-        >
-          {imageList?.map((url: string) => (
-            <>
+      <div className="flex flex-wrap justify-center">
+        {imageList.map((image, index) => {
+          return (
+            <div
+              key={index}
+              className="flex flex-col justify-center items-center"
+            >
               <img
-                key={url}
-                src={url}
+                src={image}
                 alt="upload"
-                height="300px"
-                style={{ padding: "0px 16px 16px 0px" }}
+                className="w-64 h-64 object-cover rounded-lg shadow-lg"
               />
-              <hr />
-            </>
-          ))}
-        </div>
-      </>
+            </div>
+          );
+        })}
+      </div>
     );
   }
 
