@@ -14,6 +14,14 @@ import {
 import "./App.css";
 import { Button } from "@chakra-ui/react";
 
+export const commonImageTypes = ["jpg", "png", "gif", "svg", "webp", "bmp", "ico", "cur", "tif", "tiff", "jfif", "pjpeg", "pjp", "avif", "apng"];
+
+export const isImage = (key: string) => {
+  const mediaType = key.split(".")[1];
+
+  return commonImageTypes.includes(mediaType);
+}
+
 Amplify.configure({
   Auth: {
     identityPoolId: process.env.REACT_APP_S3_identityPoolId,

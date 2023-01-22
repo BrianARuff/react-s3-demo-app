@@ -1,3 +1,4 @@
+import { isImage } from '../App';
 import appText from '../text.json';
 
 export const ImageToShowModal = ({
@@ -23,7 +24,10 @@ export const ImageToShowModal = ({
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-50">
             <div className="relative border-4 border-tomato rounded-lg relative">
                 <button
-                    className="absolute top-0 right-0 mr-4 mt-4 bg-white rounded-full p-2 hover:bg-gray-200 hover:scale-110 transition duration-200"
+                    className="fixed top-0 right-0 mr-4 mt-4 bg-white rounded-full p-2 hover:bg-gray-200 hover:scale-110 transition duration-200"
+                    style={{
+                        zIndex: 9999,
+                    }}
                     onClick={(e) => {
                         e.stopPropagation();
                         setImageToShow("");
@@ -45,10 +49,15 @@ export const ImageToShowModal = ({
                         />
                     </svg>
                 </button>
-                <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
+                {
+                    isImage(imageKeyShowing.split(".")[1]) ?
+                        <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
+                        : <video style={{ maxHeight: '95vh', width: '100%' }} className="object-cover object-center rounded-lg" controls={true}
+                            src={imageToShow} />
+                }
                 <p className="
-                    absolute bottom-0 left-30 right-0 ml-4 mb-4 bg-white p-2 w-full text-center text-gray-700
-                ">{appText.fileName} {imageKeyShowing}</p>
+                        absolute top-0 left-30 right-0 ml-4 mb-4 bg-white p-2 w-full text-center text-gray-700
+                    ">{appText.fileName} {imageKeyShowing}</p>
             </div>
         </div>
     );
