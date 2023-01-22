@@ -1,5 +1,6 @@
 import { isImage } from '../App';
 import appText from '../text.json';
+import { useRef } from 'react';
 
 export const ImageToShowModal = ({
     isLoadingImageToShow,
@@ -16,6 +17,10 @@ export const ImageToShowModal = ({
     setImageToShow: (imageToShow: string) => void,
     setIsLoadingImageToShow: (isLoadingImageToShow: boolean) => void
 }) => {
+    const closeModalButtonRef = useRef<HTMLButtonElement>(null);
+
+    closeModalButtonRef.current?.focus();
+
     if (!imageToShow || !imageKeyShowing || isLoadingImageToShow || isFetching) {
         return null;
     }
@@ -24,6 +29,7 @@ export const ImageToShowModal = ({
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-50">
             <div className="relative border-4 border-tomato rounded-lg relative">
                 <button
+                    ref={closeModalButtonRef}
                     className="fixed top-0 right-0 mr-4 mt-4 bg-white rounded-full p-2 hover:bg-gray-200 hover:scale-110 transition duration-200"
                     style={{
                         zIndex: 9999,
@@ -32,6 +38,20 @@ export const ImageToShowModal = ({
                         e.stopPropagation();
                         setImageToShow("");
                         setIsLoadingImageToShow(false);
+                    }}
+                    // check escape key
+                    onKeyDown={(e) => {
+                        e.stopPropagation();
+                        if (e.key === "Escape" || e.keyCode === 27) {
+                            setImageToShow("");
+                            setIsLoadingImageToShow(false);
+                        }
+                        // check space bar
+                        if (e.key === " " || e.keyCode === 32) {
+                            setImageToShow("");
+                            setIsLoadingImageToShow(false);
+                        }
+
                     }}
                 >
                     <svg
@@ -50,7 +70,7 @@ export const ImageToShowModal = ({
                     </svg>
                 </button>
                 {
-                    isImage(imageKeyShowing.split(".")[1]) ?
+                    isImage(imageKeyShowing.split('.')[1].split('-')[0]) ?
                         <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
                         : <video style={{ maxHeight: '95vh', width: '100%' }} className="object-cover object-center rounded-lg" controls={true}
                             src={imageToShow} />

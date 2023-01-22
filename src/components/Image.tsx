@@ -18,7 +18,7 @@ export const Image = (props: any) => {
 
     return <div className="relative flex flex-col items-center justify-center">
         {
-            isImage(image.key) ? <img
+            isImage(image?.key.split('.')[1].split('-')[0]) ? <img
                 onClick={async () => {
                     getFileFromS3(image.key)
 
@@ -49,6 +49,7 @@ export const Image = (props: any) => {
                 className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             /> : <video
                 controls={true}
+                tabIndex={imageToShow ? -1 : 0}
                 onClick={async () => {
                     getFileFromS3(image.key)
 

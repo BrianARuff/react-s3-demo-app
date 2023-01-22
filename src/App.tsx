@@ -12,12 +12,11 @@ import {
   ImageToShowModal,
 } from "./components";
 import "./App.css";
-import { Button } from "@chakra-ui/react";
+import { Button, Progress } from "@chakra-ui/react";
 
 export const commonImageTypes = ["jpg", "png", "gif", "svg", "webp", "bmp", "ico", "cur", "tif", "tiff", "jfif", "pjpeg", "pjp", "avif", "apng"];
 
-export const isImage = (key: string) => {
-  const mediaType = key.split(".")[1];
+export const isImage = (mediaType: string) => {
 
   return commonImageTypes.includes(mediaType);
 }
@@ -205,6 +204,8 @@ function App() {
             isOpen={isConfirmModalOpen}
           >
             <Button
+              tabIndex={imageToShow ? -1 : 0}
+              _focus={{ outline: "1px solid black" }}
               isDisabled={isDeleteAllDisabled}
               opacity={isDeleteAllDisabled ? 0.5 : 1}
               cursor={isDeleteAllDisabled ? "not-allowed" : "pointer"}
@@ -215,12 +216,13 @@ function App() {
             </Button>
           </ConfirmModal>
         </div>
-        <UploadButton errorMessage={errorMessage} progress={progress} handleFileUpload={handleFileUpload} />
+        <UploadButton imageToShow={imageToShow} errorMessage={errorMessage} progress={progress} handleFileUpload={handleFileUpload} />
         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div className="bg-blue-600 h-2.5 rounded-full" style={{
             width: `${progress}%`
           }}></div>
         </div>
+        <Progress value={progress} size={'sm'} bg="blue.500" />
         {
           !isFetching && <ImageToShowModal isFetching={isFetching} isLoadingImageToShow={isLoadingImageToShow} imageKeyShowing={imageKeyShowing} imageToShow={imageToShow} setImageToShow={setImageToShow} setIsLoadingImageToShow={setIsLoadingImageToShow} />
         }
