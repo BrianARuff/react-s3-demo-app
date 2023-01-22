@@ -217,11 +217,6 @@ function App() {
           </ConfirmModal>
         </div>
         <UploadButton imageToShow={imageToShow} errorMessage={errorMessage} progress={progress} handleFileUpload={handleFileUpload} />
-        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-          <div className="bg-blue-600 h-2.5 rounded-full" style={{
-            width: `${progress}%`
-          }}></div>
-        </div>
         <Progress value={progress} size={'sm'} bg="blue.500" />
         {
           !isFetching && <ImageToShowModal isFetching={isFetching} isLoadingImageToShow={isLoadingImageToShow} imageKeyShowing={imageKeyShowing} imageToShow={imageToShow} setImageToShow={setImageToShow} setIsLoadingImageToShow={setIsLoadingImageToShow} />
