@@ -107,8 +107,8 @@ function App() {
         margin: "16px",
       }}
     >
-      {(progress ||
-        isFetching) && (
+      {progress ||
+        (isFetching && (
           <div
             style={{
               position: "absolute",
@@ -116,7 +116,7 @@ function App() {
               bottom: 0,
               left: 0,
               right: 0,
-              background: rga(0, 0, 0, 0.3),
+              background: "rgba(0, 0, 0, 0.3)",
               color: "#000",
             }}
           >
