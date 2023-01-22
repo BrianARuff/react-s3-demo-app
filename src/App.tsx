@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Amplify } from "@aws-amplify/core";
 import { ClockLoader } from "react-spinners";
 import { Storage } from "@aws-amplify/storage";
 
-import "./App.css";
 import appText from "./text.json";
 import {
-  ImageTable,
   ImageList,
   ConfirmModal,
-  ProgressBarBanner,
+  UploadButton,
+  ImageToShowModal,
 } from "./components";
+import "./App.css";
+import { Button } from "@chakra-ui/react";
 
-// Configure Amplify
 Amplify.configure({
   Auth: {
     identityPoolId: process.env.REACT_APP_S3_identityPoolId,
@@ -29,14 +28,15 @@ Amplify.configure({
 });
 
 function App() {
-  const ref = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<any>([]);
-  const [progress, setProgress] = useState<string>("");
   const [imageToShow, setImageToShow] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [imageList, setImageList] = useState<string[]>([]);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [isLoadingImageToShow, setIsLoadingImageToShow] = useState<boolean>(false);
+  const [imageKeyShowing, setImageKeyShowing] = useState<string>("");
+  const [progress, setProgress] = useState<number>(0);
 
   const fetchImages = async () => {
     try {
@@ -62,27 +62,25 @@ function App() {
       console.log("Error fetching images: ", error);
       setErrorMessage("Error fetching images");
       setIsFetching(false);
+
     }
   };
 
   const storeFile = (file: any) => {
-    Storage.put(`${file.name}-${uuidv4()}`, file, {
+    Storage.put(`${file?.name ?? ''}-${uuidv4()}`, file, {
       progressCallback(progress: any) {
         const percetnage = Math.round((progress.loaded / progress.total) * 100);
-        setProgress(`Uploaded: ${percetnage}%`);
+        setProgress(percetnage);
       },
-    })
-      .then((_) => {
-        setProgress("");
-        fetchImages();
-      })
-      .catch((err) => {
-        setProgress("");
-        console.log("Error uploading file: ", err);
-      });
+    }).catch(() => {
+      console.log("Error uploading file");
+    }).finally(() => {
+      setProgress(0);
+      fetchImages();
+    });
   };
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (ref: any) => {
     const files = ref.current?.files || [];
 
     if (!files.length) {
@@ -111,9 +109,11 @@ function App() {
     try {
       const url = await Storage.get(key);
       setImageToShow(url);
+      return url;
     } catch (error) {
       console.log("Error getting file from S3: ", error);
       setErrorMessage("Error getting file from S3");
+      return new Error("Error getting file from S3");
     }
   };
 
@@ -133,14 +133,12 @@ function App() {
     setImageToShow("");
 
     try {
-      if (images.length) {
-        await Promise.all(
-          images?.results?.map(async (image: any) => {
-            await Storage.remove(image.key);
-          })
-        );
-        await fetchImages();
-      }
+      await Promise.all(
+        images?.results?.map(async (image: any) => {
+          await Storage.remove(image.key);
+        })
+      );
+      await fetchImages();
     } catch (error) {
       console.log("Error deleting all files from S3: ", error);
       setErrorMessage("Error deleting all files from S3");
@@ -150,6 +148,8 @@ function App() {
   useEffect(() => {
     fetchImages();
   }, []);
+
+  const isDeleteAllDisabled = isFetching || !images?.results?.length || isConfirmModalOpen || imageList?.length === 0;
 
   if (isFetching) {
     return (
@@ -174,39 +174,16 @@ function App() {
   } else {
     return (
       <div
-        style={{
-          width: "100%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          margin: "16px",
-        }}
+        className={`container mx-auto px-4 ${errorMessage ? 'mt-0' : '  mt-8'}`}
       >
-        {/* {errorMessage && (
+        {errorMessage && (
           <h4
-            style={{
-              color: "tomato",
-              fontSize: "24px",
-              background: "#000",
-              position: "fixed",
-              top: "22px",
-              left: 0,
-              right: 0,
-              display: "flex",
-              justifyContent: "center",
-              padding: "16px",
-            }}
+            className="bg-black text-tomato text-2xl font-bold p-4 flex fixed left-0 right-0 top-0 justify-center text-red-500"
           >
             {errorMessage}
           </h4>
-        )} */}
-        {/* {progress && ( */}
-        <ProgressBarBanner progress={"50"} />
-        {/* )} */}
-        {/* div with h1 and confirm modal, style contianer and h1 with tailwind class names */}
-        <div className="flex flex-col justify-center items-center">
+        )}
+        <div className="flex justify-between items-center flex-wrap">
           <h1 className="text-4xl font-bold mb-4">{appText.title}</h1>
           <ConfirmModal
             title={appText.modals.deleteImage.title}
@@ -218,54 +195,38 @@ function App() {
             onCancel={() => setIsConfirmModalOpen(false)}
             isOpen={isConfirmModalOpen}
           >
-            <button
-              style={{
-                background: "#F75F5E",
-                padding: "16px",
-                fontWeight: "bold",
-                fontSize: "16px",
-                color: "#fff",
-              }}
+            <Button
+              isDisabled={isDeleteAllDisabled}
+              opacity={isDeleteAllDisabled ? 0.5 : 1}
+              cursor={isDeleteAllDisabled ? "not-allowed" : "pointer"}
+              className="bg-red-500 hover:bg-red-700 mr-8 text-white font-bold py-2 px-4 rounded mb-4 cursor-pointer"
               onClick={() => setIsConfirmModalOpen(true)}
             >
-              {appText.buttons.deleteImage}
-            </button>
+              {appText.buttons.deleteAllImages}
+            </Button>
           </ConfirmModal>
         </div>
-        <input
-          style={{ display: "none" }}
-          type="file"
-          ref={ref}
-          onChange={handleFileUpload}
-          multiple={true}
-        />
-        <button
-          style={{
-            width: "100%",
-            background: "#ffd369",
-            marginBottom: "16px",
-            padding: "16px",
-            fontWeight: "bold",
-            fontSize: "16px",
-            letterSpacing: "0.125rem",
-            position: "fixed",
-            top: 0,
-            left: 0,
-          }}
-          onClick={() => ref.current?.click()}
-        >
-          {appText.buttons.upload}
-        </button>
-        {imageToShow && <img src={imageToShow} alt="upload" height="300px" />}
-        <ImageTable
-          images={images?.results ?? []}
+        <UploadButton errorMessage={errorMessage} progress={progress} handleFileUpload={handleFileUpload} />
+        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+          <div className="bg-blue-600 h-2.5 rounded-full" style={{
+            width: `${progress}%`
+          }}></div>
+        </div>
+        {
+          !isFetching && <ImageToShowModal isFetching={isFetching} isLoadingImageToShow={isLoadingImageToShow} imageKeyShowing={imageKeyShowing} imageToShow={imageToShow} setImageToShow={setImageToShow} setIsLoadingImageToShow={setIsLoadingImageToShow} />
+        }
+        <ImageList
           isFetching={isFetching}
-          errorMessage={errorMessage ?? ""}
+          imageToShow={imageToShow}
+          imageList={imageList ?? []}
+          images={images?.results ?? []}
+          setIsFetching={setIsFetching}
           getFileFromS3={getFileFromS3}
           setImageToShow={setImageToShow}
           deleteFileFromS3={deleteFileFromS3}
+          setImageKeyShowing={setImageKeyShowing}
+          setIsLoadingImageToShow={setIsLoadingImageToShow}
         />
-        <ImageList imageList={imageList ?? []} isFetching={isFetching} />
       </div>
     );
   }

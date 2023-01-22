@@ -3,7 +3,9 @@
     "upload": "Upload Image/Images",
     "showImage": "Show Image",
     "deleteImage": "Delete Image",
-    "deleteAllImages": "Delete All Images"
+    "deleteAllImages": "Delete All Images",
+    "cancel": "Cancel",
+    "hideImage": "Hide Image"
   },
   "title": "AWS-S3 Bucket Demo with React UI",
   "table": {
@@ -22,5 +24,6 @@
         "delete": "Delete"
       }
     }
-  }
+  },
+  "fileName": "File Name: "
 }

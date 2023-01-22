@@ -1,4 +1,5 @@
 export * from './ImageList';
-export * from './ImageTable';
 export * from './ConfirmModal';
-export * from './ProgressBarBanner';
+export * from './UploadButton';
+export * from './ImageToShowModal';
+export * from './Image';
