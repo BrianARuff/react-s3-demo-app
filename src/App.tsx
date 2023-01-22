@@ -191,7 +191,7 @@ function App() {
         setImageToShow={setImageToShow}
         deleteFileFromS3={deleteFileFromS3}
       />
-      <ImageList imageList={imageList ?? []} />
+      <ImageList imageList={imageList ?? []} isFetching={isFetching} />
     </div>
   );
 }

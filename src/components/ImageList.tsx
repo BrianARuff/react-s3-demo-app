@@ -1,4 +1,16 @@
-export const ImageList = ({ imageList }: { imageList: string[] }) => {
+import { ClockLoader } from "react-spinners";
+
+export const ImageList = ({
+  imageList,
+  isFetching,
+}: {
+  imageList: string[];
+  isFetching: boolean;
+}) => {
+  if (isFetching) {
+    <ClockLoader color="#ffd369" />;
+  }
+
   if (imageList?.length > 0) {
     return (
       <>

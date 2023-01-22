@@ -1,4 +1,5 @@
 import appText from "../text.json";
+import { ClockLoader } from "react-spinners";
 
 export const ImageTable = ({
   images = [],
@@ -8,6 +9,10 @@ export const ImageTable = ({
   setImageToShow = (id: string) => {},
   deleteFileFromS3 = (id: string) => {},
 }) => {
+  if (isFetching) {
+    <ClockLoader color="#ffd369" />;
+  }
+
   if (!errorMessage && images.length && !isFetching) {
     return (
       <>
