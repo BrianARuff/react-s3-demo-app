@@ -62,9 +62,7 @@ function App() {
   const storeFile = (file: any) => {
     Storage.put(`${file.name}-${uuidv4()}`, file, {
       progressCallback(progress: any) {
-        const percetnage = Math.round(
-          (progress.loaded / progress.total) * 100
-        );
+        const percetnage = Math.round((progress.loaded / progress.total) * 100);
         setProgress(`Uploaded: ${percetnage}%`);
       },
     })
@@ -77,7 +75,7 @@ function App() {
         setProgress("");
         console.log("Error uploading file: ", err);
       });
-  }
+  };
 
   const handleFileUpload = async () => {
     const files = ref.current?.files || [];
@@ -95,12 +93,13 @@ function App() {
     }
 
     if (files.length > 1) {
-      for(let i = 0; i < files.length; i++) {
+      for (let i = 0; i < files.length; i++) {
         const file = files?.[i];
         if (file) {
           storeFile(file);
         }
       }
+    }
   };
 
   const getFileFromS3 = async (key: string) => {
