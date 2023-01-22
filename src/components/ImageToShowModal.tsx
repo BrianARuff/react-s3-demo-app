@@ -69,7 +69,7 @@ export const ImageToShowModal = ({
                     </svg>
                 </button>
                 {
-                    isImage(imageKeyShowing.split('.')[0].split('-')[0]) ?
+                    isImage(imageKeyShowing.split('.')[1].split('-')[0]) ?
                         <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
                         : <video
                             controls
