@@ -66,8 +66,7 @@ function App() {
         setProgress(`Uploaded: ${percetnage}%`);
       },
     })
-      .then((resp) => {
-        console.log("File uploaded: ", resp);
+      .then((_) => {
         setProgress("");
         fetchImages();
       })
