@@ -33,24 +33,57 @@ function App() {
   const [isFetching, setIsFetching] = useState<boolean>(true);
 
   const handleFileUpload = async () => {
-    const file = ref.current?.files?.[0];
+    const files = ref.current?.files || [];
 
-    if (!file) return;
-    Storage.put(uuidv4(), file, {
-      progressCallback(progress: any) {
-        const percetnage = Math.round((progress.loaded / progress.total) * 100);
-        setProgress(`Uploaded: ${percetnage}%`);
-      },
-    })
-      .then((resp) => {
-        console.log("File uploaded: ", resp);
-        setProgress("");
-        fetchImages();
-      })
-      .catch((err) => {
-        setProgress("");
-        console.log("Error uploading file: ", err);
+    if (!files.length) {
+      return;
+    }
+
+    if (files.length === 1) {
+      const file = ref.current?.files?.[0];
+
+      if (file?.name) {
+        Storage.put(`${file.name}-${uuidv4()}`, file, {
+          progressCallback(progress: any) {
+            const percetnage = Math.round(
+              (progress.loaded / progress.total) * 100
+            );
+            setProgress(`Uploaded: ${percetnage}%`);
+          },
+        })
+          .then((resp) => {
+            console.log("File uploaded: ", resp);
+            setProgress("");
+            fetchImages();
+          })
+          .catch((err) => {
+            setProgress("");
+            console.log("Error uploading file: ", err);
+          });
+      }
+    }
+
+    if (files.length > 1) {
+      (files as [])?.forEach((file: any) => {
+        Storage.put(`${file.name}-${uuidv4()}`, file, {
+          progressCallback(progress: any) {
+            const percetnage = Math.round(
+              (progress.loaded / progress.total) * 100
+            );
+            setProgress(`Uploaded: ${percetnage}%`);
+          },
+        })
+          .then((resp) => {
+            console.log("File uploaded: ", resp);
+            setProgress("");
+            fetchImages();
+          })
+          .catch((err) => {
+            setProgress("");
+            console.log("Error uploading file: ", err);
+          });
       });
+    }
   };
 
   const fetchImages = async () => {
@@ -109,13 +142,9 @@ function App() {
     return (
       <div
         style={{
-          width: "100%",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          margin: "16px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <ClockLoader
@@ -125,99 +154,99 @@ function App() {
         />
       </div>
     );
-  }
-
-  return (
-    <div
-      style={{
-        width: "100%",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        margin: "16px",
-      }}
-    >
-      {errorMessage && (
-        <h4
-          style={{
-            color: "tomato",
-            fontSize: "24px",
-            background: "#000",
-            position: "fixed",
-            top: "22px",
-            left: 0,
-            right: 0,
-            display: "flex",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          {errorMessage}
-        </h4>
-      )}
-      {progress && (
-        <h4
-          style={{
-            color: "#fff",
-            background: "lightgreen",
-            fontWeight: "bold",
-            fontSize: "24px",
-            position: "fixed",
-            top: "22px",
-            left: 0,
-            right: 0,
-            display: "flex",
-            justifyContent: "center",
-            padding: "16px",
-          }}
-        >
-          {progress}
-        </h4>
-      )}
-      <h1 style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}>
-        {appText.title}
-      </h1>
-      <input
-        style={{ display: "none" }}
-        type="file"
-        ref={ref}
-        onChange={handleFileUpload}
-      />
-      <button
+  } else {
+    return (
+      <div
         style={{
           width: "100%",
-          background: "#ffd369",
-          marginBottom: "16px",
-          padding: "16px",
-          fontWeight: "bold",
-          fontSize: "16px",
-          letterSpacing: "0.125rem",
-          position: "fixed",
+          position: "absolute",
           top: 0,
           left: 0,
+          bottom: 0,
+          right: 0,
+          margin: "16px",
         }}
-        onClick={() => ref.current?.click()}
       >
-        {appText.buttons.upload}
-      </button>
-      {isFetching ? (
-        <Spinner />
-      ) : (
-        imageToShow && <img src={imageToShow} alt="upload" height="300px" />
-      )}
-      <ImageTable
-        images={images?.results ?? []}
-        isFetching={isFetching}
-        errorMessage={errorMessage ?? ""}
-        getFileFromS3={getFileFromS3}
-        setImageToShow={setImageToShow}
-        deleteFileFromS3={deleteFileFromS3}
-      />
-      <ImageList imageList={imageList ?? []} isFetching={isFetching} />
-    </div>
-  );
+        {errorMessage && (
+          <h4
+            style={{
+              color: "tomato",
+              fontSize: "24px",
+              background: "#000",
+              position: "fixed",
+              top: "22px",
+              left: 0,
+              right: 0,
+              display: "flex",
+              justifyContent: "center",
+              padding: "16px",
+            }}
+          >
+            {errorMessage}
+          </h4>
+        )}
+        {progress && (
+          <h4
+            style={{
+              color: "#fff",
+              background: "lightgreen",
+              fontWeight: "bold",
+              fontSize: "24px",
+              position: "fixed",
+              top: "22px",
+              left: 0,
+              right: 0,
+              display: "flex",
+              justifyContent: "center",
+              padding: "16px",
+            }}
+          >
+            {progress}
+          </h4>
+        )}
+        <h1 style={{ marginTop: errorMessage || progress ? "101px" : "51px" }}>
+          {appText.title}
+        </h1>
+        <input
+          style={{ display: "none" }}
+          type="file"
+          ref={ref}
+          onChange={handleFileUpload}
+        />
+        <button
+          style={{
+            width: "100%",
+            background: "#ffd369",
+            marginBottom: "16px",
+            padding: "16px",
+            fontWeight: "bold",
+            fontSize: "16px",
+            letterSpacing: "0.125rem",
+            position: "fixed",
+            top: 0,
+            left: 0,
+          }}
+          onClick={() => ref.current?.click()}
+        >
+          {appText.buttons.upload}
+        </button>
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          imageToShow && <img src={imageToShow} alt="upload" height="300px" />
+        )}
+        <ImageTable
+          images={images?.results ?? []}
+          isFetching={isFetching}
+          errorMessage={errorMessage ?? ""}
+          getFileFromS3={getFileFromS3}
+          setImageToShow={setImageToShow}
+          deleteFileFromS3={deleteFileFromS3}
+        />
+        <ImageList imageList={imageList ?? []} isFetching={isFetching} />
+      </div>
+    );
+  }
 }
 
 export default App;
