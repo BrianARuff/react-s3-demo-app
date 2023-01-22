@@ -74,7 +74,7 @@ function App() {
   };
 
   const storeFile = (file: any) => {
-    Storage.put(`${file?.name ?? ''}-${uuidv4()}`, file, {
+    Storage.put(`${uuidv4()}-${file?.name}`, file, {
       progressCallback(progress: any) {
         const percetnage = Math.round((progress.loaded / progress.total) * 100);
         setProgress(percetnage);

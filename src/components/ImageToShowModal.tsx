@@ -1,7 +1,6 @@
 import { isImage } from '../App';
 import appText from '../text.json';
 import { useRef } from 'react';
-import { isMobile } from 'react-device-detect';
 
 export const ImageToShowModal = ({
     isLoadingImageToShow,
@@ -70,14 +69,13 @@ export const ImageToShowModal = ({
                     </svg>
                 </button>
                 {
-                    isImage(imageKeyShowing.split('.')[1].split('-')[0]) ?
+                    isImage(imageKeyShowing.split('.')[0].split('-')[0]) ?
                         <img className="object-cover object-center w-full h-full rounded-lg" src={imageToShow} alt="upload" />
                         : <video
                             controls
                             muted
                             style={{
-                                height: isMobile ? '95vh' : 'inherit',
-                                width: isMobile ? '100vw' : 'inherit'
+                                height: '75vh',
                             }}
                             className="object-cover object-center rounded-lg"
                             src={imageToShow} />

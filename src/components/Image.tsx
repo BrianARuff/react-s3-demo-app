@@ -42,7 +42,7 @@ export const Image = (props: any) => {
             setStyles({});
         }} className="relative flex flex-col items-center justify-center">
         {
-            isImage(image?.key.split('.')[1].split('-')[0]) ? <img
+            isImage(image?.key.split('.')[0].split('-')[0]) ? <img
                 style={styles}
                 src={imageList[index]}
                 alt="upload"
