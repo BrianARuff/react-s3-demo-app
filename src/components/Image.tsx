@@ -16,65 +16,42 @@ export const Image = (props: any) => {
 
     const [styles, setStyles] = useState({});
 
-    return <div className="relative flex flex-col items-center justify-center">
+    return <div
+        onClick={async () => {
+            getFileFromS3(image.key)
+
+            new Promise((resolve) => {
+                setIsLoadingImageToShow(true);
+                setIsFetching(true);
+                resolve(image.key);
+            }).then((imageKey) => {
+                setImageKeyShowing(imageKey as string);
+                setImageToShow(imageList[index]);
+            }).finally(() => {
+                setIsLoadingImageToShow(false);
+                setIsFetching(false);
+            })
+        }}
+        onMouseEnter={() => {
+            setStyles({
+                border: "2px solid #000",
+                boxShadow: "0 0 10px #000",
+            });
+        }}
+        onMouseLeave={() => {
+            setStyles({});
+        }} className="relative flex flex-col items-center justify-center">
         {
             isImage(image?.key.split('.')[1].split('-')[0]) ? <img
-                onClick={async () => {
-                    getFileFromS3(image.key)
-
-                    new Promise((resolve) => {
-                        setIsLoadingImageToShow(true);
-                        setIsFetching(true);
-                        resolve(image.key);
-                    }).then((imageKey) => {
-                        setImageKeyShowing(imageKey as string);
-                        setImageToShow(imageList[index]);
-                    }).finally(() => {
-                        setIsLoadingImageToShow(false);
-                        setIsFetching(false);
-                    })
-                }}
-                onMouseEnter={() => {
-                    setStyles({
-                        border: "2px solid #000",
-                        boxShadow: "0 0 10px #000",
-                    });
-                }}
-                onMouseLeave={() => {
-                    setStyles({});
-                }}
                 style={styles}
                 src={imageList[index]}
                 alt="upload"
                 className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             /> : <video
                 controls={true}
-                tabIndex={imageToShow ? -1 : 0}
-                onClick={async () => {
-                    getFileFromS3(image.key)
-
-                    new Promise((resolve) => {
-                        setIsLoadingImageToShow(true);
-                        setIsFetching(true);
-                        resolve(image.key);
-                    }).then((imageKey) => {
-                        setImageKeyShowing(imageKey as string);
-                        setImageToShow(imageList[index]);
-                    }).finally(() => {
-                        setIsLoadingImageToShow(false);
-                        setIsFetching(false);
-                    })
-                }}
-                onMouseEnter={() => {
-                    setStyles({
-                        border: "2px solid #000",
-                        boxShadow: "0 0 10px #000",
-                    });
-                }}
-                onMouseLeave={() => {
-                    setStyles({});
-                }}
                 style={styles}
+                height={'300px'}
+                width={'100%'}
                 src={imageList[index]}
                 className="w-64 h-64 object-cover rounded-lg shadow-lg p-2 m-2 cursor-pointer"
             />
