@@ -14,13 +14,16 @@ export const ImageList = ({ imageList }: { imageList: string[] }) => {
           }}
         >
           {imageList?.map((url: string) => (
-            <img
-              key={url}
-              src={url}
-              alt="upload"
-              height="300px"
-              style={{ padding: "0px 16px 16px 0px" }}
-            />
+            <>
+              <img
+                key={url}
+                src={url}
+                alt="upload"
+                height="300px"
+                style={{ padding: "0px 16px 16px 0px" }}
+              />
+              <hr />
+            </>
           ))}
         </div>
       </>
