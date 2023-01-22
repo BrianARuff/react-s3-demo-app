@@ -136,6 +136,7 @@ function App() {
           alignItems: "center",
           height: "100vh",
           width: "100%",
+          flexDirection: "column",
         }}
       >
         <h1 style={{ marginBottom: "16px" }}>{appText.title}</h1>
