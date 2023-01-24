@@ -1,6 +1,6 @@
 ### React S3 Demo Application
 
-[View Site](https://willowy-granita-33176a.netlify.app/)
+[Preview Site On Netlify](https://willowy-granita-33176a.netlify.app/)
 
 #### Todo List
 1. Paginate images and media
